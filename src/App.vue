@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <v-main>
+      <Auth />
       <VideoList />
       <HelloWorld />
     </v-main>
