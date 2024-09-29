@@ -42,7 +42,7 @@
 import { ref, getCurrentInstance } from 'vue';
 
 const { proxy } = getCurrentInstance()
-const url = proxy.appConfig.searchUrl
+const url = proxy.appConfig.searchUrl + "?sub=" + userSub
 
 const videos = ref([])
 const loading = ref(false)

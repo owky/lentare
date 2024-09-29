@@ -14,11 +14,13 @@
     <script>
       const APP_ID = "lentare"
 
-      const userSub = new URLSearchParams(window.location.search).get('sub')
+      let userSub = new URLSearchParams(window.location.search).get('sub')
 
       if (!!userSub) {
         localStorage.setItem(APP_ID, JSON.stringify({sub: userSub}))
         window.history.replaceState({}, '', '/')
+      } else {
+        userSub = JSON.parse(localStorage.getItem(APP_ID)).sub
       }
     </script>
 
