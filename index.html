@@ -11,6 +11,18 @@
 
   <body>
     <div id="app"></div>
+
+    <script>
+      const APP_ID = "lentare"
+
+      const userSub = new URLSearchParams(window.location.search).get('sub')
+
+      if (!!userSub) {
+        localStorage.setItem(APP_ID, JSON.stringify({sub: userSub}))
+        window.history.replaceState({}, '', '/')
+      }
+    </script>
+
     <script type="module" src="/src/main.js"></script>
   </body>
 
