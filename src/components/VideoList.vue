@@ -45,18 +45,18 @@ const { proxy } = getCurrentInstance()
 const url = proxy.appConfig.searchUrl
 
 const videos = ref([])
+const loading = ref(false)
 
-let loading = false
 let query = ""
 
 function search() {
-  loading = true
+  loading.value = true
 
   fetch(url)
   .then(result => result.json())
   .then(json => {
     videos.value = json
-    loading = false
+    loading.value = false
   })
 }
 </script>
