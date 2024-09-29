@@ -7,6 +7,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@google-cloud/firestore": "^7.10.0",
     "@mdi/font": "7.4.47",
     "googleapis": "^144.0.0",
     "jsonwebtoken": "^9.0.2",
