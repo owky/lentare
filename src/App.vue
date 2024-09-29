@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <v-main>
+      <VideoList />
       <HelloWorld />
     </v-main>
 

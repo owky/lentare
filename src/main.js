@@ -17,4 +17,8 @@ const app = createApp(App)
 
 registerPlugins(app)
 
+app.config.globalProperties.appConfig = {
+  searchUrl: window.location.origin + "/search"
+}
+
 app.mount('#app')
