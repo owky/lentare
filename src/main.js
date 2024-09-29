@@ -18,7 +18,7 @@ const app = createApp(App)
 registerPlugins(app)
 
 app.config.globalProperties.appConfig = {
-  searchUrl: window.location.origin + "/search"
+  searchUrl: window.location.origin + "/.netlify/functions/search"
 }
 
 app.mount('#app')

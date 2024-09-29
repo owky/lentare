@@ -1,6 +1,7 @@
 <template>
   <v-text-field class="mx-auto" max-width="334"
     :loading="loading"
+    :disabled="loading"
     append-inner-icon="mdi-magnify"
     label="Search Youtube"
     v-model="query"
@@ -43,45 +44,22 @@ import { ref, getCurrentInstance } from 'vue';
 const { proxy } = getCurrentInstance()
 const url = proxy.appConfig.searchUrl
 
-const loading = ref(false)
-const loaded = ref(false)
+const videos = ref([])
+
+let loading = false
 let query = ""
 
-const videos = ref([])
-const searchResult = [
-  {
-    thumbnail: 'https://i.ytimg.com/vi/6670kqCdb8E/hqdefault.jpg',
-    title: '【Official Live Video】MyGO!!!!!「迷星叫」（「BanG Dream! Special☆LIVE Girls Band Party! 2020→2022」より）',
-    subtitle: '',
-  },
-  {
-    thumbnail: 'https://i.ytimg.com/vi/rBL930dHVkY/hqdefault.jpg',
-    title: 'Returns',
-    subtitle: '',
-  },
-  {
-    thumbnail: 'https://i.ytimg.com/vi/_CraJ8654Bg/hqdefault.jpg',
-    title: '「壱雫空」（アニメ「BanG Dream! It&#39;s MyGO!!!!!」オープニング映像）',
-    subtitle: '',
-  },
-]
-
 function search() {
-  loading.value = true
-  console.log(url + "?=" + query)
-  console.log(videos.value)
-  videos.value = searchResult
-  loading.value = false
-  loaded.value = true
+  loading = true
+
+  fetch(url)
+  .then(result => result.json())
+  .then(json => {
+    videos.value = json
+    loading = false
+  })
 }
 </script>
 
 <style scoped>
-.title-container {
-  max-width: 70%; /* タイトル部分の幅を調整 */
-}
-
-.image-container {
-  margin-left: auto; /* 画像を右寄せ */
-}
 </style>
