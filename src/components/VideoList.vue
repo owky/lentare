@@ -10,7 +10,7 @@
   ></v-text-field>
 
   <v-card class="mx-auto mt-2" max-width="334" v-for="video in videos">
-    <v-img :src="video.thumbnail" class="align-end"
+    <v-img @click="changeVideo(video.id)" :src="video.thumbnail" class="align-end"
            gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="200px" cover>
       <v-card-title class="text-white" v-text="video.title"></v-card-title>
     </v-img>
@@ -24,6 +24,7 @@
       ></v-btn>
 
       <v-btn
+        @click="changeVideo(video.id)"
         color="medium-emphasis"
         icon="mdi-bookmark"
         size="small"
@@ -43,6 +44,7 @@ import { ref, getCurrentInstance } from 'vue';
 
 const { proxy } = getCurrentInstance()
 const url = proxy.appConfig.searchUrl
+const emit = defineEmits(['changeVideo'])
 
 const videos = ref([])
 const loading = ref(false)
@@ -58,6 +60,10 @@ function search() {
     videos.value = json
     loading.value = false
   })
+}
+
+const changeVideo = (videoId) => {
+  emit('changeVideo', videoId)
 }
 </script>
 

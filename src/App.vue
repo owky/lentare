@@ -1,8 +1,9 @@
 <template>
   <v-app>
     <v-main>
+      <Player :video="currentVideo" />
       <Auth />
-      <VideoList />
+      <VideoList @changeVideo="changeVideo"/>
       <HelloWorld />
     </v-main>
 
@@ -11,5 +12,11 @@
 </template>
 
 <script setup>
-  //
+import { ref } from 'vue'
+
+const currentVideo = ref('')
+
+const changeVideo = (videoId) => {
+  currentVideo.value = videoId
+}
 </script>
