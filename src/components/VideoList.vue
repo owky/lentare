@@ -42,7 +42,7 @@
 import { ref, getCurrentInstance } from 'vue';
 
 const { proxy } = getCurrentInstance()
-const url = proxy.appConfig.searchUrl + "?sub=" + userSub
+const url = proxy.appConfig.searchUrl
 
 const videos = ref([])
 const loading = ref(false)
@@ -52,7 +52,7 @@ let query = ""
 function search() {
   loading.value = true
 
-  fetch(url)
+  fetch(url + "?q=" + query)
   .then(result => result.json())
   .then(json => {
     videos.value = json
