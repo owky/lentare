@@ -2,7 +2,7 @@
   <v-app>
     <v-main>
       <v-container>
-        <Player :video="currentVideo" />
+        <YoutubeControl :video="currentVideo" />
         <Control />
         <Auth />
         <VideoList @changeVideo="changeVideo"/>
