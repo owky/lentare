@@ -2,9 +2,9 @@
   <v-app>
     <v-main>
       <Player :video="currentVideo" />
+      <Control />
       <Auth />
       <VideoList @changeVideo="changeVideo"/>
-      <HelloWorld />
     </v-main>
 
     <AppFooter />
