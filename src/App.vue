@@ -1,13 +1,13 @@
 <template>
   <v-app>
     <v-main>
-      <Player :video="currentVideo" />
-      <Control />
-      <Auth />
-      <VideoList @changeVideo="changeVideo"/>
+      <v-container>
+        <Player :video="currentVideo" />
+        <Control />
+        <Auth />
+        <VideoList @changeVideo="changeVideo"/>
+      </v-container>
     </v-main>
-
-    <AppFooter />
   </v-app>
 </template>
 
