@@ -4,7 +4,6 @@
       <v-container>
         <YoutubeControl :video="currentVideo" />
         <Control />
-        <Auth />
         <VideoList @changeVideo="changeVideo"/>
       </v-container>
     </v-main>
