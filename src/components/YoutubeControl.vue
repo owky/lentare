@@ -68,6 +68,7 @@ import { ref, watch, computed, onMounted } from 'vue'
 const playerContainer = ref()
 let player = null
 let playing = ref(false)
+let video_id = null
 const speed = ref(1.0)
 const repeatToggle = ref(false)
 const repeatFrom = ref(null)
@@ -76,7 +77,12 @@ const props = defineProps({ video: { type: String, required: true }})
 
 watch(() => props.video, (newVideo, oldVideo) => {
   player.loadVideoById(newVideo)
+  video_id = newVideo
   playing.value = true
+  speed.value = 1.0
+  repeatFrom.value = null
+  repeatTo.value = null
+  saveData()
 })
 
 const displayRepeatFrom = computed(() => {
@@ -97,6 +103,18 @@ const loadYouTubeIframeAPI = () => {
 }
 
 const onPlayerReady = () => {
+  const data = JSON.parse(localStorage.getItem('lentare'))
+
+  if (data?.id) {
+    video_id = data.id
+    speed.value = data.speed
+    repeatFrom.value = data.repeatFrom
+    repeatTo.value = data.repeatTo
+
+    player.cueVideoById(video_id)
+    player.setPlaybackRate(speed.value)
+  }
+
   setInterval(repeater, 500)
 }
 
@@ -143,19 +161,23 @@ function backToTop() {
 function speedDown() {
   speed.value >= 0.05 ? speed.value -= 0.05 : speed.value = 0
   player.setPlaybackRate(speed.value)
+  saveData()
 }
 
 function speedUp() {
   speed.value <= 0.95 ? speed.value += 0.05 : speed.value = 1.0
   player.setPlaybackRate(speed.value)
+  saveData()
 }
 
 function setRepeatFrom() {
   repeatFrom.value = player.getCurrentTime()
+  saveData()
 }
 
 function setRepeatTo() {
   repeatTo.value = player.getCurrentTime()
+  saveData()
 }
 
 function repeater () {
@@ -168,6 +190,17 @@ function repeater () {
 
 function toggleRepeat() {
   repeatToggle.value = !repeatToggle.value
+}
+
+function saveData() {
+  const data = {
+    id: video_id,
+    speed: Math.round(speed.value * 100) / 100,
+    repeatFrom: repeatFrom.value,
+    repeatTo: repeatTo.value
+  }
+
+  localStorage.setItem('lentare', JSON.stringify(data))
 }
 </script>
 
