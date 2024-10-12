@@ -79,6 +79,7 @@ const props = defineProps({ video: { type: String, required: true }})
 
 watch(() => props.video, (newVideo, oldVideo) => {
   player.loadVideoById(newVideo)
+  player.setPlaybackRate(1.0)
   video_id = newVideo
   playing.value = true
   speed.value = 1.0
