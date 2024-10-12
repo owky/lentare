@@ -1,10 +1,33 @@
 <template>
   <v-app>
+    <v-app-bar flat density="compact">
+      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-app-bar-title>lentare</v-app-bar-title>
+
+      <template v-slot:append>
+        <v-btn icon="mdi-magnify" @click="showSearch"></v-btn>
+      </template>
+    </v-app-bar>
+
+    <v-navigation-drawer v-model="drawer">
+      <v-list>
+        <v-list-item title="Player" @click="showPlayer">
+          <template v-slot:prepend>
+            <v-icon icon="mdi-play-box-outline"></v-icon>
+          </template>
+        </v-list-item>
+        <v-list-item title="Search" @click="showSearch">
+          <template v-slot:prepend>
+            <v-icon icon="mdi-magnify"></v-icon>
+          </template>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+
     <v-main>
       <v-container>
-        <YoutubeControl :video="currentVideo" />
-        <Control />
-        <VideoList @changeVideo="changeVideo"/>
+        <YoutubeControl v-show="playerVisible" :video="currentVideo" />
+        <VideoList v-show="searchVisible" @changeVideo="changeVideo"/>
       </v-container>
     </v-main>
   </v-app>
@@ -13,9 +36,26 @@
 <script setup>
 import { ref } from 'vue'
 
+const drawer = ref(false)
 const currentVideo = ref('')
+const playerVisible = ref(true)
+const searchVisible = ref(false)
 
 const changeVideo = (videoId) => {
   currentVideo.value = videoId
+  playerVisible.value = true
+  searchVisible.value = false
+}
+
+const showPlayer = () => {
+  playerVisible.value = true
+  searchVisible.value = false
+  drawer.value = false
+}
+
+const showSearch = () => {
+  playerVisible.value = false
+  searchVisible.value = true
+  drawer.value = false
 }
 </script>

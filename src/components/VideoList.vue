@@ -1,4 +1,5 @@
 <template>
+  <div>
   <v-text-field class="mx-auto" max-width="334"
     :loading="loading"
     :disabled="loading"
@@ -37,6 +38,7 @@
       ></v-btn>
     </v-card-actions>
   </v-card>
+  </div>
 </template>
 
 <script setup>

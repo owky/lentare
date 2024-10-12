@@ -1,4 +1,5 @@
 <template>
+  <div>
   <div ref="playerContainer"></div>
 
   <v-row>
@@ -60,6 +61,7 @@
      </v-text-field>
     </v-col>
   </v-row>
+  </div>
 </template>
 
 <script setup>
