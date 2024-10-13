@@ -11,6 +11,17 @@
 
     <v-navigation-drawer v-model="drawer">
       <v-list>
+        <v-list-item v-if="!isAuthenticated">
+          <template v-slot:prepend>
+            <v-icon icon="mdi-login"></v-icon>
+          </template>
+          <v-btn density="compact" variant="outlined" color="blue-grey" @click="loginWithRedirect()">Login</v-btn>
+        </v-list-item>
+        <v-list-item v-if="isAuthenticated"
+          prepend-avatar="https://lh3.googleusercontent.com/a/ACg8ocIMk2u7SQPYzTOokKr0e9e8_IbaxEFWA6ZoH1tRnAosZuV7TVk=s96-c"
+          :title="user.nickname"
+        ></v-list-item>
+        <v-divider></v-divider>
         <v-list-item title="Player" @click="showPlayer">
           <template v-slot:prepend>
             <v-icon icon="mdi-play-box-outline"></v-icon>
@@ -28,6 +39,13 @@
         </v-list-item>
       </v-list>
 
+      <template v-slot:append>
+        <div class="pa-2" v-if="isAuthenticated">
+          <v-btn block color="blue-grey-darken-2" @click="logout">
+            Logout
+          </v-btn>
+        </div>
+      </template>
     </v-navigation-drawer>
 
     <v-main>
@@ -45,7 +63,7 @@ import { ref, getCurrentInstance } from 'vue'
 import { useAuth0 } from '@auth0/auth0-vue'
 
 const { proxy } = getCurrentInstance()
-const { user, isAuthenticated } = useAuth0()
+const { loginWithRedirect, logout, user, isAuthenticated } = useAuth0()
 const drawer = ref(false)
 const currentVideo = ref({})
 const history = ref([])

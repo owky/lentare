@@ -1,15 +1,11 @@
 <template>
   <div>
-    login? : {{ isAuthenticated }}<br/>
-    <div v-if="isAuthenticated">
-      {{ user.nickname }} is logged in.
-      <button @click="logout">Log out</button>
+    <div class="pa-2" v-if="!isAuthenticated">
+      <v-btn block variant="outlined" color="blue-grey" @click="loginWithRedirect">
+        Login
+      </v-btn>
     </div>
-    <div v-else>
-      <button @click="login">Log in</button>
-    </div>
-
-    <v-list v-for="h in history">
+    <v-list v-if="isAuthenticated" v-for="h in history">
       <v-list-item
         :prepend-avatar="h.thumbnail"
         :title="h.title"
