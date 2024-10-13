@@ -11,7 +11,7 @@
   ></v-text-field>
 
   <v-card class="mx-auto mt-2" max-width="334" v-for="video in videos">
-    <v-img @click="changeVideo(video.id)" :src="video.thumbnail" class="align-end"
+    <v-img @click="changeVideo(video)" :src="video.thumbnail" class="align-end"
            gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="200px" cover>
       <v-card-title class="text-white" v-text="video.title"></v-card-title>
     </v-img>
@@ -25,7 +25,7 @@
       ></v-btn>
 
       <v-btn
-        @click="changeVideo(video.id)"
+        @click="changeVideo(video)"
         color="medium-emphasis"
         icon="mdi-bookmark"
         size="small"
@@ -64,8 +64,8 @@ function search() {
   })
 }
 
-const changeVideo = (videoId) => {
-  emit('changeVideo', videoId)
+const changeVideo = (video) => {
+  emit('changeVideo', video)
 }
 </script>
 

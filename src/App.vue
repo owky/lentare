@@ -21,6 +21,11 @@
             <v-icon icon="mdi-magnify"></v-icon>
           </template>
         </v-list-item>
+        <v-list-item title="History" @click="showHistory">
+          <template v-slot:prepend>
+            <v-icon icon="mdi-history"></v-icon>
+          </template>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
@@ -28,6 +33,7 @@
       <v-container>
         <YoutubeControl v-show="playerVisible" :video="currentVideo" />
         <VideoList v-show="searchVisible" @changeVideo="changeVideo"/>
+        <History v-show="historyVisible" />
       </v-container>
     </v-main>
   </v-app>
@@ -40,9 +46,10 @@ const drawer = ref(false)
 const currentVideo = ref('')
 const playerVisible = ref(true)
 const searchVisible = ref(false)
+const historyVisible = ref(false)
 
-const changeVideo = (videoId) => {
-  currentVideo.value = videoId
+const changeVideo = (video) => {
+  currentVideo.value = video
   playerVisible.value = true
   searchVisible.value = false
 }
@@ -50,12 +57,21 @@ const changeVideo = (videoId) => {
 const showPlayer = () => {
   playerVisible.value = true
   searchVisible.value = false
+  historyVisible.value = false
   drawer.value = false
 }
 
 const showSearch = () => {
   playerVisible.value = false
   searchVisible.value = true
+  historyVisible.value = false
+  drawer.value = false
+}
+
+const showHistory = () => {
+  playerVisible.value = false
+  searchVisible.value = false
+  historyVisible.value = true
   drawer.value = false
 }
 </script>

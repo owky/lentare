@@ -78,9 +78,9 @@ const repeatTo = ref(null)
 const props = defineProps({ video: { type: String, required: true }})
 
 watch(() => props.video, (newVideo, oldVideo) => {
-  player.loadVideoById(newVideo)
+  player.loadVideoById(newVideo.id)
   player.setPlaybackRate(1.0)
-  video_id = newVideo
+  video_id = newVideo.id
   playing.value = true
   speed.value = 1.0
   repeatFrom.value = null
@@ -118,6 +118,8 @@ const onPlayerReady = () => {
     player.setPlaybackRate(speed.value)
   }
 
+  player.getIframe().style.pointerEvents = 'none'
+
   setInterval(repeater, 500)
 }
 
@@ -131,6 +133,10 @@ onMounted(async () => {
       videoId: null,
       width: width,
       height: width * 9 / 16,
+      playerVars: {
+        controls: 0,
+        disablekb: 1,
+      },
       events: {
         onReady: onPlayerReady,
       },
@@ -196,12 +202,12 @@ function toggleRepeat() {
 }
 
 function saveData() {
-  const data = {
+  const data = Object.assign(props.video, {
     id: video_id,
     speed: Math.round(speed.value * 100) / 100,
     repeatFrom: repeatFrom.value,
     repeatTo: repeatTo.value
-  }
+  })
 
   localStorage.setItem('lentare', JSON.stringify(data))
 }
