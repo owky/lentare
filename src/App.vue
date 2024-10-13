@@ -41,10 +41,13 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, getCurrentInstance } from 'vue'
+import { useAuth0 } from '@auth0/auth0-vue'
 
+const { proxy } = getCurrentInstance()
+const { user } = useAuth0()
 const drawer = ref(false)
-const currentVideo = ref('')
+const currentVideo = ref({})
 const playerVisible = ref(true)
 const searchVisible = ref(false)
 const historyVisible = ref(false)
@@ -53,6 +56,10 @@ const changeVideo = (video) => {
   currentVideo.value = video
   playerVisible.value = true
   searchVisible.value = false
+  fetch(proxy.appConfig.historyApi, {
+    method: 'POST',
+    body: JSON.stringify({sub: user.value.sub, video: video})
+  })
 }
 
 const showPlayer = () => {

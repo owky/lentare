@@ -75,7 +75,7 @@ const speed = ref(1.0)
 const repeatToggle = ref(false)
 const repeatFrom = ref(null)
 const repeatTo = ref(null)
-const props = defineProps({ video: { type: String, required: true }})
+const props = defineProps({ video: { type: Object, required: true }})
 
 watch(() => props.video, (newVideo, oldVideo) => {
   player.loadVideoById(newVideo.id)
