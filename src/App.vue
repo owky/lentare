@@ -34,7 +34,7 @@
       <v-container>
         <YoutubeControl v-show="playerVisible" :video="currentVideo" />
         <VideoList v-show="searchVisible" @changeVideo="changeVideo"/>
-        <History v-show="historyVisible" />
+        <History v-show="historyVisible" :history="history"/>
       </v-container>
     </v-main>
   </v-app>
@@ -48,6 +48,7 @@ const { proxy } = getCurrentInstance()
 const { user } = useAuth0()
 const drawer = ref(false)
 const currentVideo = ref({})
+const history = ref([])
 const playerVisible = ref(true)
 const searchVisible = ref(false)
 const historyVisible = ref(false)
@@ -56,9 +57,9 @@ const changeVideo = (video) => {
   currentVideo.value = video
   playerVisible.value = true
   searchVisible.value = false
-  fetch(proxy.appConfig.historyApi, {
+  fetch(proxy.appConfig.historyApi + '?sub=' + user.value.sub, {
     method: 'POST',
-    body: JSON.stringify({sub: user.value.sub, video: video})
+    body: JSON.stringify({video: video})
   })
 }
 
@@ -81,5 +82,11 @@ const showHistory = () => {
   searchVisible.value = false
   historyVisible.value = true
   drawer.value = false
+
+  fetch(proxy.appConfig.historyApi + "?sub=" + user.value.sub)
+  .then(result => result.json())
+  .then(json => {
+    history.value = json.history
+  })
 }
 </script>

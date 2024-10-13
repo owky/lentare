@@ -9,11 +9,11 @@
       <button @click="login">Log in</button>
     </div>
 
-    <v-list>
+    <v-list v-for="h in history">
       <v-list-item
-        :prepend-avatar="history.thumbnail"
-        :title="history.title"
-        :subtitle="history.channel"
+        :prepend-avatar="h.thumbnail"
+        :title="h.title"
+        :subtitle="h.channel"
       ></v-list-item>
     </v-list>
   </div>
@@ -23,12 +23,8 @@
 import { ref, onMounted } from 'vue'
 import { useAuth0 } from '@auth0/auth0-vue'
 
-const history = ref({})
 const { loginWithRedirect, logout, user, isAuthenticated } = useAuth0()
-
-onMounted(async () => {
-  history.value = JSON.parse(localStorage.getItem('lentare'))
-})
+const props = defineProps({ history: { type: Array, required: true }})
 
 const login = () => {
   loginWithRedirect()

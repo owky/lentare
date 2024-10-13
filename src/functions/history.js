@@ -7,17 +7,22 @@ const firestore = new Firestore({
 
 exports.handler = async function(event, context) {
   let status = null
-  let message = null
+  let responseBody = {}
 
-  const params = JSON.parse(event.body)
-  const sub = params.sub
-  const video = params.video
-
+  const sub = event.queryStringParameters.sub
   const refCur = firestore.collection('current').doc(sub)
   const refHis = firestore.collection('history').doc(sub)
 
   switch (event.httpMethod) {
+    case 'GET':
+      responseBody = {
+        history: (await refHis.get())?.data()?.list || []
+      }
+      console.log(responseBody)
+      status = '200'
+      break
     case 'POST':
+      const video = JSON.parse(event.body).video
       const current = (await refCur.get()).data()
       let history = (await refHis.get()).data()?.list || []
       if (current) history.unshift(current)
@@ -27,15 +32,15 @@ exports.handler = async function(event, context) {
       await refHis.set({list: history})
 
       status = '201'
-      message = ''
+      respoinseBody = {}
       break
     default:
       status = '404'
-      message = 'Not Found'
+      responseBody = {message: 'Not Found'}
   }
 
   return {
     statusCode: status,
-    body: JSON.stringify({message: message})
+    body: JSON.stringify(responseBody)
   }
 }
