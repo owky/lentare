@@ -20,8 +20,8 @@ registerPlugins(app)
 
 app.use(
   createAuth0({
-    domain: "dev-nvudkqxwg4at35s3.us.auth0.com",
-    clientId: "b2v59TrAefs4eV1ZyBj0TF0U2cEPRkUl",
+    domain: import.meta.env.VITE_AUTH0_DOMAIN,
+    clientId: import.meta.env.VITE_AUTH0_CLIENT_ID,
     authorizationParams: {
       redirect_uri: window.location.origin
     }
