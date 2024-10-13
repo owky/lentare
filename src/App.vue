@@ -45,7 +45,7 @@ import { ref, getCurrentInstance } from 'vue'
 import { useAuth0 } from '@auth0/auth0-vue'
 
 const { proxy } = getCurrentInstance()
-const { user } = useAuth0()
+const { user, isAuthenticated } = useAuth0()
 const drawer = ref(false)
 const currentVideo = ref({})
 const history = ref([])
@@ -57,10 +57,13 @@ const changeVideo = (video) => {
   currentVideo.value = video
   playerVisible.value = true
   searchVisible.value = false
-  fetch(proxy.appConfig.historyApi + '?sub=' + user.value.sub, {
-    method: 'POST',
-    body: JSON.stringify({video: video})
-  })
+
+  if (isAuthenticated.value) {
+    fetch(proxy.appConfig.historyApi + '?sub=' + user.value.sub, {
+      method: 'POST',
+      body: JSON.stringify({video: video})
+    })
+  }
 }
 
 const showPlayer = () => {
@@ -83,10 +86,12 @@ const showHistory = () => {
   historyVisible.value = true
   drawer.value = false
 
-  fetch(proxy.appConfig.historyApi + "?sub=" + user.value.sub)
-  .then(result => result.json())
-  .then(json => {
-    history.value = json.history
-  })
+  if (isAuthenticated.value) {
+    fetch(proxy.appConfig.historyApi + "?sub=" + user.value.sub)
+    .then(result => result.json())
+    .then(json => {
+      history.value = json.history
+    })
+  }
 }
 </script>
