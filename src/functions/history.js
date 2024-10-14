@@ -15,8 +15,11 @@ exports.handler = async function(event, context) {
 
   switch (event.httpMethod) {
     case 'GET':
+      const cur = (await refCur.get())?.data()
+      const his = (await refHis.get())?.data()?.list || []
+      if (cur) { his.unshift(cur) }
       responseBody = {
-        history: (await refHis.get())?.data()?.list || []
+        history: his
       }
       status = 200
       break
