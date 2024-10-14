@@ -18,8 +18,7 @@ exports.handler = async function(event, context) {
       responseBody = {
         history: (await refHis.get())?.data()?.list || []
       }
-      console.log(responseBody)
-      status = '200'
+      status = 200
       break
     case 'POST':
       const video = JSON.parse(event.body).video
@@ -31,11 +30,11 @@ exports.handler = async function(event, context) {
       await refCur.set(video)
       await refHis.set({list: history})
 
-      status = '201'
+      status = 201
       respoinseBody = {}
       break
     default:
-      status = '404'
+      status = 404
       responseBody = {message: 'Not Found'}
   }
 
