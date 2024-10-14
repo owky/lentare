@@ -15,7 +15,7 @@
           <template v-slot:prepend>
             <v-icon icon="mdi-login"></v-icon>
           </template>
-          <v-btn density="compact" variant="outlined" color="blue-grey" @click="loginWithRedirect()">Login</v-btn>
+          <v-btn density="compact" variant="outlined" color="blue-grey" @click="loginWithRedirect">Login</v-btn>
         </v-list-item>
         <v-list-item v-if="isAuthenticated"
           prepend-avatar="https://lh3.googleusercontent.com/a/ACg8ocIMk2u7SQPYzTOokKr0e9e8_IbaxEFWA6ZoH1tRnAosZuV7TVk=s96-c"
@@ -63,13 +63,22 @@ import { ref, getCurrentInstance } from 'vue'
 import { useAuth0 } from '@auth0/auth0-vue'
 
 const { proxy } = getCurrentInstance()
-const { loginWithRedirect, logout, user, isAuthenticated } = useAuth0()
+const { loginWithRedirect, user, isAuthenticated } = useAuth0()
+const auth0 = useAuth0()
 const drawer = ref(false)
 const currentVideo = ref({})
 const history = ref([])
 const playerVisible = ref(true)
 const searchVisible = ref(false)
 const historyVisible = ref(false)
+
+const logout = () => {
+  auth0.logout({
+    logoutParams: {
+      returnTo: window.location.origin
+    }
+  })
+}
 
 const changeVideo = (video) => {
   currentVideo.value = video
