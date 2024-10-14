@@ -52,7 +52,7 @@
       <v-container>
         <YoutubeControl v-show="playerVisible" :video="currentVideo" />
         <VideoList v-show="searchVisible" @changeVideo="changeVideo"/>
-        <History v-show="historyVisible" :history="history"/>
+        <History v-show="historyVisible" :history="history" @changeVideo="changeVideo"/>
       </v-container>
     </v-main>
   </v-app>

@@ -78,14 +78,15 @@ const repeatTo = ref(null)
 const props = defineProps({ video: { type: Object, required: true }})
 
 watch(() => props.video, (newVideo, oldVideo) => {
-  player.loadVideoById(newVideo.id)
-  player.setPlaybackRate(1.0)
   video_id = newVideo.id
   playing.value = true
-  speed.value = 1.0
-  repeatFrom.value = null
-  repeatTo.value = null
+  speed.value = newVideo.speed || 1.0
+  repeatFrom.value = newVideo.repeatFrom || null
+  repeatTo.value = newVideo.repeatTo || null
   saveData()
+  console.log("speed: "+ speed.value +", from: "+ repeatFrom.value +", To: "+ repeatTo.value)
+  player.loadVideoById(video_id)
+  player.setPlaybackRate(speed.value)
 })
 
 const displayRepeatFrom = computed(() => {

@@ -10,6 +10,7 @@
         :prepend-avatar="h.thumbnail"
         :title="h.title"
         :subtitle="h.channel"
+        @click="changeVideo(h)"
       ></v-list-item>
     </v-list>
   </div>
@@ -21,8 +22,14 @@ import { useAuth0 } from '@auth0/auth0-vue'
 
 const { loginWithRedirect, logout, user, isAuthenticated } = useAuth0()
 const props = defineProps({ history: { type: Array, required: true }})
+const emit = defineEmits(['changeVideo'])
 
 const login = () => {
   loginWithRedirect()
+}
+
+const changeVideo = (video) => {
+  console.log(video)
+  emit('changeVideo', video)
 }
 </script>
