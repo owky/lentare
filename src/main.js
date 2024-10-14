@@ -30,7 +30,8 @@ app.use(
 
 app.config.globalProperties.appConfig = {
   searchUrl: window.location.origin + "/.netlify/functions/search",
-  historyApi: window.location.origin + "/.netlify/functions/history"
+  historyApi: window.location.origin + "/.netlify/functions/history",
+  currentApi: window.location.origin + "/.netlify/functions/current"
 }
 
 app.mount('#app')

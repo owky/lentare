@@ -65,8 +65,11 @@
 </template>
 
 <script setup>
-import { ref, watch, computed, onMounted } from 'vue'
+import { ref, watch, computed, onMounted, getCurrentInstance } from 'vue'
+import { useAuth0 } from '@auth0/auth0-vue'
 
+const auth0 = useAuth0()
+const { proxy } = getCurrentInstance()
 const playerContainer = ref()
 let player = null
 let playing = ref(false)
@@ -84,7 +87,6 @@ watch(() => props.video, (newVideo, oldVideo) => {
   repeatFrom.value = newVideo.repeatFrom || null
   repeatTo.value = newVideo.repeatTo || null
   saveData()
-  console.log("speed: "+ speed.value +", from: "+ repeatFrom.value +", To: "+ repeatTo.value)
   player.loadVideoById(video_id)
   player.setPlaybackRate(speed.value)
 })
@@ -211,6 +213,14 @@ function saveData() {
   })
 
   localStorage.setItem('lentare', JSON.stringify(data))
+
+  if (auth0.isAuthenticated) {
+    const api = proxy.appConfig.currentApi
+    fetch(api +"?sub="+ auth0.user.value.sub, {
+      method: 'PUT',
+      body: JSON.stringify({video: data})
+    })
+  }
 }
 </script>
 

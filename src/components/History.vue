@@ -29,7 +29,6 @@ const login = () => {
 }
 
 const changeVideo = (video) => {
-  console.log(video)
   emit('changeVideo', video)
 }
 </script>
