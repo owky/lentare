@@ -214,7 +214,7 @@ function saveData() {
 
   localStorage.setItem('lentare', JSON.stringify(data))
 
-  if (auth0.isAuthenticated) {
+  if (auth0.isAuthenticated.value) {
     const api = proxy.appConfig.currentApi
     fetch(api +"?sub="+ auth0.user.value.sub, {
       method: 'PUT',
