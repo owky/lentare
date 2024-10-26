@@ -1,6 +1,8 @@
 <template>
   <div>
   <div ref="playerContainer"></div>
+  <v-progress-linear v-model="progress" color="blue-grey-darken-2"></v-progress-linear>
+  <div class="time-display">{{ formatTime(currentTime) }} / {{ formatTime(duration) }}</div>
 
   <v-row>
     <v-col cols="12" align="center" class="text-overline pb-0">control</v-col>
@@ -79,6 +81,9 @@ const repeatToggle = ref(false)
 const repeatFrom = ref(null)
 const repeatTo = ref(null)
 const props = defineProps({ video: { type: Object, required: true }})
+let currentTime = ref(0.0)
+let duration = ref(0.0)
+let progress = ref(0)
 
 watch(() => props.video, (newVideo, oldVideo) => {
   video_id = newVideo.id
@@ -124,6 +129,12 @@ const onPlayerReady = () => {
   player.getIframe().style.pointerEvents = 'none'
 
   setInterval(repeater, 500)
+
+  setInterval(() => {
+    currentTime.value = player.getCurrentTime()
+    duration.value = player.getDuration()
+    progress.value = currentTime.value / duration.value * 100
+  }, 1000)
 }
 
 onMounted(async () => {
@@ -146,6 +157,12 @@ onMounted(async () => {
     })
   }
 })
+
+function formatTime(seconds) {
+  const minutes = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+}
 
 function playAndPause() {
   const state = player.getPlayerState()
@@ -225,4 +242,13 @@ function saveData() {
 </script>
 
 <style scoped>
+.time-display {
+  text-align:right;
+  font-size:small;
+  background-color: rgba(255,255,255,0.8);
+  margin-top: -11px;
+  padding-right: 3px;
+  position: relative;
+  z-index: 100;
+}
 </style>
