@@ -144,7 +144,7 @@ onMounted(async () => {
     const width = playerContainer.value.clientWidth
 
     player = new YT.Player(playerContainer.value, {
-      videoId: null,
+      videoId: '',
       width: width,
       height: width * 9 / 16,
       playerVars: {
